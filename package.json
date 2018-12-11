@@ -5,6 +5,10 @@
     "main": "dist/index.js",
     "author": "",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/benfletcher/aoc-2018-ts"
+    },
     "scripts": {
         "start": "tsns run",
         "test": "run-s build-and:test",
