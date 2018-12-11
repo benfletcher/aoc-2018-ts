@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import "mocha";
-import { add } from "./foo";
+import { add } from ".";
 
 describe("add:", () => {
     it("add(1 + 1) = 2", () => {
