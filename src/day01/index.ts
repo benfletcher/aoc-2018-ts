@@ -20,7 +20,7 @@ export class Day01 {
         return this;
     }
 
-    parseText() {
+    parseInputText() {
         if (!this.inputText) {
             throw new Error("Nothing to parse: no 'inputText'!");
         }

@@ -14,7 +14,7 @@ describe("Day 01:", () => {
 
     it("can chain calls to parseInputFile", () => {
         const day01 = new Day01();
-        day01.parseInputFile().parseText();
+        day01.parseInputFile().parseInputText();
 
         assert.deepEqual(day01.numbersList, [-16, 12, -6, -16, 4, 19]);
     });
@@ -25,14 +25,14 @@ describe("Day 01:", () => {
         assert.doesNotThrow(() =>
             day01
                 .parseInputFile()
-                .parseText()
+                .parseInputText()
                 .solvePartA()
         );
     });
 
     it("throws on parseText if no inputText", () => {
         const day01 = new Day01();
-        assert.throws(() => day01.parseText());
+        assert.throws(() => day01.parseInputText());
     });
 
     it("Solves Part A for [-16, 12, -6, -16, 4, 19]", () => {
@@ -58,7 +58,7 @@ describe("Day 01:", () => {
         const day01 = new Day01();
         day01
             .parseInputFile()
-            .parseText()
+            .parseInputText()
             .solvePartA();
 
         const expectedText = fs.readFileSync(
@@ -81,7 +81,7 @@ describe("Day 01:", () => {
         assert.doesNotThrow(() =>
             day01
                 .parseInputFile("input-b.txt")
-                .parseText()
+                .parseInputText()
                 .solvePartA()
                 .solvePartB()
         );
@@ -98,7 +98,7 @@ describe("Day 01:", () => {
         assert.doesNotThrow(() =>
             day01
                 .parseInputFile("input-r.txt")
-                .parseText()
+                .parseInputText()
                 .solvePartA()
                 .solvePartB()
         );
