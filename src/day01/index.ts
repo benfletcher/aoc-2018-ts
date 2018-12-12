@@ -3,11 +3,6 @@ import * as fs from "fs";
 export const DEFAULT_FILEPATH = "./src/day01/";
 const DEFAULT_FILENAME = "input-test.txt";
 
-const inputText: string = fs.readFileSync(
-    DEFAULT_FILEPATH + DEFAULT_FILENAME,
-    "UTF-8"
-);
-
 export class Day01 {
     inputText?: string;
     numbersList?: number[];
