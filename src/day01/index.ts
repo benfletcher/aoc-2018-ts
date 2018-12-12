@@ -1,43 +1,66 @@
-const fs = require("fs");
+import * as fs from "fs";
 
-const inputText = fs.readFileSync("./src/day01/input.txt", "UTF-8");
+export const DEFAULT_FILEPATH = "./src/day01/";
+const DEFAULT_FILENAME = "input-test.txt";
 
-export function day01StartFromString(numbersText: string = inputText): number {
-    const numArray = numbersText.split("\n").map(Number);
+export class Day01 {
+    inputText?: string;
+    numbersList?: number[];
+    partAResult?: number;
+    partBResult?: number;
 
-    let ourAnswer = day01(numArray);
+    parseInputFile(filename = DEFAULT_FILENAME) {
+        this.inputText = fs.readFileSync(DEFAULT_FILEPATH + filename, "UTF-8");
 
-    return ourAnswer;
-}
-
-export function day01(numsList: number[]): number {
-    return numsList.reduce((sum: number, value: number) => sum + value, 0);
-}
-
-export function parseTextFile(fileName: string = "input"): number[] {
-    const theNumbers = fs
-        .readFileSync(`./src/day01/${fileName}.txt`, "UTF-8")
-        .split("\n")
-        .map(Number);
-
-    return theNumbers;
-}
-
-export function solvesTheProblem(theNumbers: number[]): number {
-    const seenFrequencies = new Set();
-    let currentFrequency = 0;
-    let i = 0;
-    let numResets = 0;
-    while (!seenFrequencies.has(currentFrequency)) {
-        seenFrequencies.add(currentFrequency);
-        if (i >= theNumbers.length) {
-            i = 0;
-            numResets++;
-        }
-        currentFrequency += theNumbers[i];
-        i++;
+        return this;
     }
-    console.log("Resets", numResets);
 
-    return currentFrequency;
+    parseInputText() {
+        if (!this.inputText) {
+            throw new Error("Nothing to parse: no 'inputText'!");
+        }
+
+        this.numbersList = this.inputText.split("\n").map(Number);
+
+        return this;
+    }
+
+    solvePartA() {
+        if (!this.numbersList) {
+            throw new Error("No numbersList present!");
+        }
+
+        this.partAResult = this.numbersList.reduce(
+            (sum: number, numbersListValue: number) => sum + numbersListValue,
+            0
+        );
+
+        return this;
+    }
+
+    solvePartB() {
+        if (!this.numbersList) {
+            throw new Error("No numbersList present!");
+        }
+
+        const seenFrequencies = new Set();
+        let currentFrequency = 0;
+        let i = 0;
+
+        // no infinite loop protection
+        while (!seenFrequencies.has(currentFrequency)) {
+            seenFrequencies.add(currentFrequency);
+
+            currentFrequency += this.numbersList[i];
+
+            i++;
+            if (i >= this.numbersList.length) {
+                i = 0;
+            }
+        }
+
+        this.partBResult = currentFrequency;
+
+        return this;
+    }
 }
