@@ -1,40 +1,109 @@
+import * as fs from "fs";
 import { assert } from "chai";
 import "mocha";
-import {
-    day01,
-    day01StartFromString,
-    solvesTheProblem,
-    parseTextFile
-} from ".";
+import { Day01, DEFAULT_FILEPATH } from ".";
 
 describe("Day 01:", () => {
-    it("Sums [1, 2, 3] and equal 6", () => {
-        assert.equal(day01([1, 2, 3]), 6);
+    it("begins with undefined public properties", () => {
+        const day01 = new Day01();
+        assert.isUndefined(day01.numbersList, "property: numbersList");
+        assert.isUndefined(day01.inputText, "property: inputText");
+        assert.isUndefined(day01.partAResult, "property: partAResult");
+        assert.isUndefined(day01.partBResult, "property: partBResult");
     });
 
-    it("Sums string and equal 6", () => {
-        assert.equal(day01StartFromString("+1\n+2\n+3"), 6);
+    it("can chain calls to parseInputFile", () => {
+        const day01 = new Day01();
+        day01.parseInputFile().parseText();
+
+        assert.deepEqual(day01.numbersList, [-16, 12, -6, -16, 4, 19]);
     });
 
-    it("Sums default input and gives answer", () => {
-        assert.equal(day01StartFromString(), 474);
-    });
-});
+    it("can chain calls from parseInputFile > parseText > solvePartA", () => {
+        const day01 = new Day01();
 
-describe("Day 01B:", () => {
-    it("Finds first repeat for -1, 1 which is 0", () => {
-        assert.equal(solvesTheProblem([-1, 1]), 0);
+        assert.doesNotThrow(() =>
+            day01
+                .parseInputFile()
+                .parseText()
+                .solvePartA()
+        );
     });
-    it("Finds first repeat for 2, 1, -1 which is 2", () => {
-        assert.equal(solvesTheProblem([2, 1, -1]), 2);
+
+    it("throws on parseText if no inputText", () => {
+        const day01 = new Day01();
+        assert.throws(() => day01.parseText());
     });
-    it("Finds first repeat for 1, -2 which is 2", () => {
-        assert.equal(solvesTheProblem([1, -2]), 0);
+
+    it("Solves Part A for [-16, 12, -6, -16, 4, 19]", () => {
+        const day01 = new Day01();
+
+        day01.numbersList = [-16, 12, -6, -16, 4, 19];
+        day01.solvePartA();
+
+        assert.equal(day01.partAResult, -3);
     });
-    it("Finds first repeat for input", () => {
-        assert.equal(solvesTheProblem(parseTextFile("input")), 137041);
+
+    it("Solves Parts A & B for [4, -2, -3]", () => {
+        const day01 = new Day01();
+
+        day01.numbersList = [4, -2, -3];
+        day01.solvePartA().solvePartB();
+
+        assert.equal(day01.partAResult, -1, "part A");
+        assert.equal(day01.partBResult, 2, "part B");
     });
-    it("Finds first repeat for input-ben", () => {
-        assert.equal(solvesTheProblem(parseTextFile("input-ben")), 56752);
+
+    it("Processes test file by default", () => {
+        const day01 = new Day01();
+        day01
+            .parseInputFile()
+            .parseText()
+            .solvePartA();
+
+        const expectedText = fs.readFileSync(
+            DEFAULT_FILEPATH + "input-test.txt",
+            "UTF-8"
+        );
+
+        const expectedNumbers = expectedText.split("\n").map(Number);
+
+        assert.equal(day01.inputText, expectedText, "inputText");
+        assert.deepEqual(day01.numbersList, expectedNumbers, "numbersList");
+        assert.equal(day01.partAResult, -3, "partAResult");
+    });
+
+    it("Processes and solves input-b file", () => {
+        const day01 = new Day01();
+        const INPUT_B_SOLUTION_PART_A = 416;
+        const INPUT_B_SOLUTION_PART_B = 56752;
+
+        assert.doesNotThrow(() =>
+            day01
+                .parseInputFile("input-b.txt")
+                .parseText()
+                .solvePartA()
+                .solvePartB()
+        );
+        assert.isArray(day01.numbersList, "numbersList");
+        assert.equal(day01.partAResult, INPUT_B_SOLUTION_PART_A, "Part A");
+        assert.equal(day01.partBResult, INPUT_B_SOLUTION_PART_B, "Part B");
+    });
+
+    it("Processes and solves input-r file", () => {
+        const day01 = new Day01();
+        const INPUT_R_SOLUTION_PART_A = 474;
+        const INPUT_R_SOLUTION_PART_B = 137041;
+
+        assert.doesNotThrow(() =>
+            day01
+                .parseInputFile("input-r.txt")
+                .parseText()
+                .solvePartA()
+                .solvePartB()
+        );
+        assert.isArray(day01.numbersList, "numbersList");
+        assert.equal(day01.partAResult, INPUT_R_SOLUTION_PART_A);
+        assert.equal(day01.partBResult, INPUT_R_SOLUTION_PART_B);
     });
 });
