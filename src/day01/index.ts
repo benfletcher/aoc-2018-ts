@@ -1,7 +1,7 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 
-export const DEFAULT_FILEPATH = "./src/day01/";
-const DEFAULT_FILENAME = "input-test.txt";
+export const DEFAULT_FILEPATH = './src/day01/';
+const DEFAULT_FILENAME = 'input-test.txt';
 
 export class Day01 {
     inputText?: string;
@@ -9,25 +9,25 @@ export class Day01 {
     partAResult?: number;
     partBResult?: number;
 
-    parseInputFile(filename = DEFAULT_FILENAME) {
-        this.inputText = fs.readFileSync(DEFAULT_FILEPATH + filename, "UTF-8");
+    parseInputFile (filename = DEFAULT_FILENAME) {
+        this.inputText = fs.readFileSync(DEFAULT_FILEPATH + filename, 'UTF-8');
 
         return this;
     }
 
-    parseInputText() {
+    parseInputText () {
         if (!this.inputText) {
-            throw new Error("Nothing to parse: no 'inputText'!");
+            throw new Error('Nothing to parse: no \'inputText\'!');
         }
 
-        this.numbersList = this.inputText.split("\n").map(Number);
+        this.numbersList = this.inputText.split('\n').map(Number);
 
         return this;
     }
 
-    solvePartA() {
+    solvePartA () {
         if (!this.numbersList) {
-            throw new Error("No numbersList present!");
+            throw new Error('No numbersList present!');
         }
 
         this.partAResult = this.numbersList.reduce(
@@ -38,9 +38,9 @@ export class Day01 {
         return this;
     }
 
-    solvePartB() {
+    solvePartB () {
         if (!this.numbersList) {
-            throw new Error("No numbersList present!");
+            throw new Error('No numbersList present!');
         }
 
         const seenFrequencies = new Set();
